@@ -1,7 +1,7 @@
 #bear {
   position: absolute;
   left: 100px;
-  /*top: 240px;*/
+  top: 240px;
   width: 100px;
   height: 160px;
 }
@@ -17,12 +17,14 @@
 
 #title {
   background-color: rgb(128, 128, 128);
+  width: 1200px;
   align-content: center;
   align-self: center;
 }
 
 #scores {
   background-color: rgb(247, 134, 241);
+  width: 1200px;
   align-content: center;
   align-self: center;
 }
