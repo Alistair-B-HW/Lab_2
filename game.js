@@ -4,15 +4,32 @@ function start() {
 
   // Add an event listener to the keypress event.
   document.addEventListener("keydown", moveBear, false);
+  document.getElementById("duration").innerHTML = 0;
+  document.getElementById("hits").innerHTML = 0;
 
   //create new array for bees
   bees = new Array();
   //create bees
+
   makeBees();
   updateBees();
 
+  bearMoved = false;
+  count = 0;
+  console.log(bearMoved);
+
   //take start time
   lastStingTime = new Date();
+}
+
+function restart() {
+  let j = 1;
+  while (j <= bees.length) {
+    let bee = bees.pop();
+    bee.htmlElement.style.display = "none";
+  }
+
+  start();
 }
 
 function Bear() {
@@ -22,6 +39,7 @@ function Bear() {
   this.x = this.htmlElement.offsetLeft;
   this.y = this.htmlElement.offsetTop;
   this.move = function (xDir, yDir) {
+    bearMoved = true;
     this.x += this.dBear * xDir;
     this.y += this.dBear * yDir;
     this.fitBounds();
@@ -65,6 +83,12 @@ function moveBear(e) {
   if (e.keyCode == KEYDOWN) {
     bear.move(0, 1);
   } // down key
+
+  if (bearMoved === true && count === 0) {
+    console.log(lastStingTime);
+    lastStingTime = new Date();
+    count++;
+  }
 }
 
 function setSpeed() {
@@ -105,6 +129,9 @@ class Bee {
       if (this.x > w - iw) this.x = w - iw;
       if (this.y < 0) this.y = 0;
       if (this.y > h - ih) this.y = h - ih;
+    };
+    this.hide = function () {
+      this.htmlElement.style.display = "none";
     };
   }
 }
@@ -158,6 +185,13 @@ function makeBees() {
   }
 }
 
+function addBee() {
+  var bee = new Bee(bees.length + 1); //create object and its IMG element
+  bee.display(); //display the bee
+  bees.push(bee); //add the bee object to the bees array
+  document.getElementById("nbBees").value = bees.length;
+}
+
 function moveBees() {
   //get speed input field value
   let speed = document.getElementById("speedBees").value;
@@ -186,7 +220,7 @@ function updateBees() {
 }
 
 function isHit(defender, offender) {
-  if (overlap(defender, offender)) {
+  if (overlap(defender, offender) && bearMoved === true) {
     //check if the two image overlap
     let score = hits.innerHTML;
     score = Number(score) + 1; //increment the score
@@ -196,7 +230,7 @@ function isHit(defender, offender) {
     let newStingTime = new Date();
     let thisDuration = newStingTime - lastStingTime;
     lastStingTime = newStingTime;
-    let longestDuration = Number(duration.innerHTML);
+    let longestDuration = duration.innerHTML;
     if (longestDuration === 0) {
       longestDuration = thisDuration;
     } else {

@@ -7,21 +7,26 @@
     <title>Bear Game</title>
     <script src="game.js">
     var bear;
-    var bees;
+    var bees = new Array();
     var updateTimer;
     //take start time
     var lastStingTime;
+    var bearMoved;
+    var count;
     </script>
   </head>
   <body onload="start()" ;>
     <div id="title">
       <h1>Help the bear escape the bees !</h1>
-      <p>Bear tries to avoid being stung by <input type="text" id="nbBees" value="10" size="3" onchange="makeBees()"> bees by running and jumping. The objective is to have as less stings as possible!</p>
+      <p>Bear tries to avoid being stung by <input type="text" id="nbBees" value="1" size="3" onchange="restart()"> bees by running and jumping. The objective is to have as less stings as possible!</p>
       <p>You can ajust bees' speed <input type="text" id="speedBees" value="50" size="3" onchange="moveBees()"> px/ms
           <br> and the refresh period <input type="text" id="periodTimer" value="75" size="3" onchange="updateBees()";> ms </p>
       <h2>Press left, right, up, down keys to move the bear</h2>
       <p>You can adjust bears' speed <input type="text" id="dBare" value="100" size="3" onchange="setSpeed();"> (How far he moves)
-      <div id="scores">
+    <br><br>
+    <button type="button" onclick="restart()">Reset</button>
+    <t><button type="button" onclick="addBee()">Add Bee</button>
+        <div id="scores">
         <table>
             <tr>
                 <td>
